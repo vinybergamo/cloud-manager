@@ -1,7 +1,7 @@
 package proxy
 
 import (
-	"github.com/vinybergamo/cloud-deploy/utils"
+	"github.com/vinybergamo/cloud-manager/utils"
 )
 
 func Set(n, p string) {

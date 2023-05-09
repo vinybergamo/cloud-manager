@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/vinybergamo/cloud-deploy/vars"
+	"github.com/vinybergamo/cloud-manager/vars"
 )
 
 func ExecCommand(a ...string) (string, error) {

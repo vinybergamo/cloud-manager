@@ -1,7 +1,7 @@
 package git
 
 import (
-	"github.com/vinybergamo/cloud-deploy/utils"
+	"github.com/vinybergamo/cloud-manager/utils"
 )
 
 func Sync(n, u string) {

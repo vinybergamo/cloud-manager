@@ -2,8 +2,8 @@ package shell
 
 import (
 	terminal "github.com/nsf/termbox-go"
-	"github.com/vinybergamo/cloud-deploy/database"
-	sheelMenus "github.com/vinybergamo/cloud-deploy/shell/menus"
+	"github.com/vinybergamo/cloud-manager/database"
+	sheelMenus "github.com/vinybergamo/cloud-manager/shell/menus"
 )
 
 func Init() {

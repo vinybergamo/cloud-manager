@@ -2,11 +2,11 @@ package sheelMenus
 
 import (
 	terminal "github.com/nsf/termbox-go"
-	"github.com/vinybergamo/cloud-deploy/apps"
-	"github.com/vinybergamo/cloud-deploy/domains"
-	"github.com/vinybergamo/cloud-deploy/letsencrypt"
-	"github.com/vinybergamo/cloud-deploy/proxy"
-	"github.com/vinybergamo/cloud-deploy/utils"
+	"github.com/vinybergamo/cloud-manager/apps"
+	"github.com/vinybergamo/cloud-manager/domains"
+	"github.com/vinybergamo/cloud-manager/letsencrypt"
+	"github.com/vinybergamo/cloud-manager/proxy"
+	"github.com/vinybergamo/cloud-manager/utils"
 )
 
 func Applications() {

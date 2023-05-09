@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/vinybergamo/cloud-deploy/utils"
+	"github.com/vinybergamo/cloud-manager/utils"
 )
 
 func Create(n string) string {

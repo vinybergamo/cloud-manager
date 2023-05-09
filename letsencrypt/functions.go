@@ -1,6 +1,6 @@
 package letsencrypt
 
-import "github.com/vinybergamo/cloud-deploy/utils"
+import "github.com/vinybergamo/cloud-manager/utils"
 
 func Enable(n string) {
 	utils.Logger("yellow", "Enabling Let's Encrypt")

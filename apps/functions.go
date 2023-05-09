@@ -5,11 +5,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/vinybergamo/cloud-deploy/git"
-	"github.com/vinybergamo/cloud-deploy/letsencrypt"
-	"github.com/vinybergamo/cloud-deploy/proxy"
-	"github.com/vinybergamo/cloud-deploy/utils"
-	"github.com/vinybergamo/cloud-deploy/vars"
+	"github.com/vinybergamo/cloud-manager/git"
+	"github.com/vinybergamo/cloud-manager/letsencrypt"
+	"github.com/vinybergamo/cloud-manager/proxy"
+	"github.com/vinybergamo/cloud-manager/utils"
+	"github.com/vinybergamo/cloud-manager/vars"
 )
 
 func Exists(n string) bool {

@@ -1,9 +1,9 @@
 package domains
 
 import (
-	"github.com/vinybergamo/cloud-deploy/apps"
-	"github.com/vinybergamo/cloud-deploy/utils"
-	"github.com/vinybergamo/cloud-deploy/vars"
+	"github.com/vinybergamo/cloud-manager/apps"
+	"github.com/vinybergamo/cloud-manager/utils"
+	"github.com/vinybergamo/cloud-manager/vars"
 )
 
 func Add(a string, d string) {

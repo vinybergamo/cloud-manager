@@ -1,4 +1,4 @@
-module github.com/vinybergamo/cloud-deploy
+module github.com/vinybergamo/cloud-manager
 
 go 1.20
 

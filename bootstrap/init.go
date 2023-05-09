@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/vinybergamo/cloud-deploy/shell"
+	"github.com/vinybergamo/cloud-manager/shell"
 )
 
 func Init() {
