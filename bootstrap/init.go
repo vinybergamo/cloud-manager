@@ -29,16 +29,15 @@ func Init() {
 	}
 
 	if flag.NFlag() == 0 && !*serverMode {
-		shell.Init()
-
-		vars.IsShellMode = true
+		initShell()
 	}
 
 	if flag.NFlag() == 1 && *serverMode {
-		vars.IsShellMode = true
-
-		shell.Init()
-
-		vars.IsShellMode = true
+		initShell()
 	}
+}
+
+func initShell() {
+	shell.Init()
+	vars.IsShellMode = true
 }
