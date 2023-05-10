@@ -22,7 +22,7 @@ func ExecCommand(a ...string) (string, error) {
 
 	if vars.IsServerMode {
 		mode = "cloud"
-		command = append([]string{mode, vars.Server}, a...)
+		command = append([]string{mode}, a...)
 	} else {
 		mode = "ssh"
 		command = append([]string{mode, vars.Server}, a...)
