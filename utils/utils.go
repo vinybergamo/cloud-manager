@@ -17,6 +17,22 @@ import (
 )
 
 func ExecCommand(a ...string) (string, error) {
+	if vars.IsServerMode {
+		command := append([]string{"cloud"}, a...)
+		cmd := exec.Command(command[0], command[1:]...)
+
+		var stdout, stderr bytes.Buffer
+		cmd.Stdout = &stdout
+		cmd.Stderr = &stderr
+
+		if err := cmd.Run(); err != nil {
+			errMsg := fmt.Sprintf("Command failed: %s \n%s", command, stderr.String())
+			return "", fmt.Errorf(errMsg)
+
+		}
+		return stdout.String(), nil
+	}
+
 	command := append([]string{"ssh", vars.Server}, a...)
 	cmd := exec.Command(command[0], command[1:]...)
 

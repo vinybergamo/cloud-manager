@@ -6,3 +6,4 @@ var Server = os.Getenv("SERVER")
 var DefaultDomain = "vinybergamo.cloud"
 
 var IsShellMode bool = false
+var IsServerMode bool = false

@@ -2,7 +2,6 @@ package apps
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/vinybergamo/cloud-manager/git"
@@ -23,7 +22,7 @@ func Create(n string) (string, error) {
 	if exists {
 		utils.LoggerError("App already exists")
 
-		r := createResponse{
+		r := appsResponse{
 			Error:   true,
 			Message: "App already exists",
 			Status:  "Error",
@@ -39,7 +38,7 @@ func Create(n string) (string, error) {
 	if err != nil {
 		utils.LoggerError(err.Error())
 
-		r := createResponse{
+		r := appsResponse{
 			Error:   true,
 			Message: "Error creating app: " + err.Error(),
 			Status:  "Error",
@@ -50,7 +49,7 @@ func Create(n string) (string, error) {
 	}
 
 	utils.Logger("green", n, "created")
-	r := createResponse{
+	r := appsResponse{
 		Message: "App created",
 		Status:  "Created",
 		Service: "Apps",
@@ -61,10 +60,20 @@ func Create(n string) (string, error) {
 
 }
 
-func Destroy(n string) {
+func Destroy(n string) (string, error) {
 	exists := Exists(n)
 	if !exists {
 		utils.LoggerError("App does not exists")
+
+		r := appsResponse{
+			Error:   true,
+			Message: "App does not exists",
+			Status:  "Error",
+			Service: "Apps",
+			Name:    n,
+		}
+
+		return utils.CreateJSONResponse(r), fmt.Errorf("app does not exists")
 	}
 
 	utils.Logger("yellow", "Destroying app... ")
@@ -72,9 +81,29 @@ func Destroy(n string) {
 	_, err := utils.ExecCommand("apps:destroy", n, "--force")
 	if err != nil {
 		utils.LoggerError(err.Error())
+
+		r := appsResponse{
+			Error:   true,
+			Message: "Error destroying app: " + err.Error(),
+			Status:  "Error",
+			Service: "Apps",
+			Name:    n,
+		}
+
+		return utils.CreateJSONResponse(r), err
 	}
 
 	utils.Logger("green", "App", n, "destroyed")
+
+	r := appsResponse{
+		Error:   false,
+		Message: "App destroyed",
+		Status:  "Destroyed",
+		Service: "Apps",
+		Name:    n,
+	}
+
+	return utils.CreateJSONResponse(r), nil
 }
 
 func Build(n string) {
@@ -123,22 +152,50 @@ func List() {
 	utils.Logger("green", apps)
 }
 
-func Deploy(n, u, p string) {
-	Create(n)
+func Deploy(n, u, p string) (string, error) {
+	_, err := Create(n)
+	if err != nil {
+		r := appsResponse{
+			Status:  "Error",
+			Message: err.Error(),
+			Service: "Apps",
+			Name:    n,
+			Error:   true,
+		}
+
+		return utils.CreateJSONResponse(r), err
+	}
+
 	git.Sync(n, u)
 	Build(n)
 	proxy.Set(n, p)
 	letsencrypt.Enable(n)
 	letsencrypt.EnableCronjob()
 	utils.Logger("green", "App", n, "deployed")
-	_, err := utils.CheckHTTPSDomain(n + "." + vars.DefaultDomain)
+	_, err = utils.CheckHTTPSDomain(n + "." + vars.DefaultDomain)
 	utils.Logger("green", "Application available at:")
 	if err != nil {
 		utils.Logger("green", "http://"+n+".")
-		os.Exit(0)
+		r := appsResponse{
+			Status:  "Deployed",
+			Message: "Application deployed",
+			Service: "Apps",
+			Name:    n,
+			Url:     "http://" + n + ".",
+			Error:   false,
+		}
+		return utils.CreateJSONResponse(r), nil
 	}
 	utils.Logger("green", "https://"+n+"."+vars.DefaultDomain)
-	os.Exit(0)
+	r := appsResponse{
+		Status:  "Deployed",
+		Message: "Application deployed",
+		Service: "Apps",
+		Name:    n,
+		Url:     "https://" + n + "." + vars.DefaultDomain,
+		Error:   false,
+	}
+	return utils.CreateJSONResponse(r), nil
 }
 
 func ChecksRun(n string) string {
