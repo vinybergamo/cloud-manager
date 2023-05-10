@@ -18,21 +18,47 @@ func Exists(n string) bool {
 	return err == nil
 }
 
-func Create(n string) {
+func Create(n string) (string, error) {
 	exists := Exists(n)
 	if exists {
 		utils.LoggerError("App already exists")
+
+		r := createResponse{
+			Error:   true,
+			Message: "App already exists",
+			Status:  "Error",
+			Service: "Apps",
+			Name:    n,
+		}
+		return utils.CreateJSONResponse(r), fmt.Errorf("app already exists")
 	}
 
 	utils.Logger("yellow", "Creating app... ")
 
 	_, err := utils.ExecCommand("apps:create", n)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(0)
+		utils.LoggerError(err.Error())
+
+		r := createResponse{
+			Error:   true,
+			Message: "Error creating app: " + err.Error(),
+			Status:  "Error",
+			Service: "Apps",
+			Name:    n,
+		}
+		return utils.CreateJSONResponse(r), err
 	}
 
 	utils.Logger("green", n, "created")
+	r := createResponse{
+		Message: "App created",
+		Status:  "Created",
+		Service: "Apps",
+		Name:    n,
+	}
+
+	return utils.CreateJSONResponse(r), nil
+
 }
 
 func Destroy(n string) {

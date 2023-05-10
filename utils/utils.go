@@ -3,6 +3,7 @@ package utils
 import (
 	"bufio"
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"net"
 	"net/http"
@@ -55,7 +56,9 @@ func Logger(c string, a ...string) {
 
 func LoggerError(m ...string) {
 	fmt.Println("\033[31m", "[ ERROR ]", "!!", strings.Join(m, " "), "\033[0m")
-	os.Exit(0)
+	if vars.IsShellMode {
+		os.Exit(0)
+	}
 }
 
 func CheckHTTPDomain(d string) (string, error) {
@@ -129,4 +132,13 @@ func ReadInput(t string) string {
 	input = strings.TrimRight(input, "-")
 
 	return input
+}
+
+func CreateJSONResponse(r interface{}) string {
+	jsonData, err := json.Marshal(r)
+	if err != nil {
+		return `{"error": "Failed to create JSON response"}`
+	}
+
+	return string(jsonData)
 }

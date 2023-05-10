@@ -4,7 +4,9 @@ import (
 	"flag"
 	"fmt"
 
+	"github.com/vinybergamo/cloud-manager/api"
 	"github.com/vinybergamo/cloud-manager/shell"
+	"github.com/vinybergamo/cloud-manager/vars"
 )
 
 func Init() {
@@ -14,7 +16,7 @@ func Init() {
 	flag.Parse()
 
 	if *apiPtr {
-		fmt.Println("Runing api server")
+		api.Init()
 	}
 
 	if *appPtr {
@@ -23,5 +25,7 @@ func Init() {
 
 	if flag.NFlag() == 0 {
 		shell.Init()
+
+		vars.IsShellMode = true
 	}
 }
